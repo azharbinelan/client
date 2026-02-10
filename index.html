@@ -2,35 +2,32 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Siswa Portal CBT | SMAN 23 Batam</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exambrowser | SMAN 23 Batam</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Tambahan CSS khusus agar WebView/Iframe penuh se-layar */
+        #exam-container { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; background: white; }
+        iframe { width: 100%; height: 100%; border: none; }
+        .btn-exit { position: fixed; bottom: 20px; right: 20px; z-index: 10000; padding: 10px 20px; background: #ef4444; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .login-box { margin: auto; text-align: center; }
+    </style>
 </head>
-<body>
+<body style="display: flex; justify-content: center; align-items: center; height: 100vh;">
 
-    <div id="login-zone">
-        <div class="login-card">
-            <h2 style="color: #3b82f6;">Selamat Ujian</h2>
-            <p style="color: #94a3b8; font-size: 13px;">SMAN 23 Batam - Exam Mode</p>
-            <input type="password" id="user-pin" placeholder="Masukkan Password">
-            <button class="btn-start" onclick="startExam()">MASUK UJIAN</button>
-        </div>
+    <div id="login-area" class="card login-box">
+        <h2 style="color: #3b82f6; margin-bottom: 20px;">SMAN 23 BATAM</h2>
+        <p style="margin-bottom: 20px;">Masukkan Password Masuk Ujian</p>
+        <input type="password" id="input-pin" placeholder="Password Masuk" style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white;">
+        <button class="btn-save" onclick="verifikasiMasuk()" style="width: 100%;">MULAI UJIAN</button>
     </div>
 
-    <div id="exam-zone">
-        <div class="sidebar">
-            <h2 style="color: #3b82f6;">Jangan Lupa Berdoa</h2>
-            <div style="background: var(--primary); padding: 10px; border-radius: 8px; font-weight: bold; text-align: center;">📝 Lembar Soal</div>
-            <div style="margin-top: auto; font-size: 11px; color: #64748b;">Status: Terkunci (Fullscreen)</div>
-        </div>
-        <div class="main-content">
-            <div class="top-bar">
-                <span style="font-weight: bold;">Ujian Sedang Berlangsung</span>
-                <button onclick="keluar()" style="background: #ef4444; color: white; border: none; padding: 7px 15px; border-radius: 6px; cursor: pointer; font-weight: bold;">KELUAR</button>
-            </div>
-            <iframe id="frame-soal"></iframe>
-        </div>
+    <div id="exam-container">
+        <button class="btn-exit" onclick="verifikasiKeluar()">KELUAR UJIAN</button>
+        <iframe id="exam-frame" src=""></iframe>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
