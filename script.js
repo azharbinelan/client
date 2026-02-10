@@ -1,34 +1,38 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbwRFbWalfPUExSBzyI_aXNGcBOkD6S-i7UYWtQ2-nLYPDHhJcNLpkcDCrp76tEEOuqAkA/exec"; // Harus sama dengan link di Admin
-
-window.onload = async function() {
-    const statusBox = document.createElement('div');
-    statusBox.innerText = "Menghubungkan ke server...";
-    document.body.appendChild(statusBox);
-
-    try {
-        const response = await fetch(API_URL);
-        const config = await response.json();
-        
-        if (config.url) {
-            // Simpan ke local sebagai cadangan offline
-            localStorage.setItem('cbt_sman23_final', JSON.stringify(config));
-            statusBox.remove();
-            mulaiUjian(config);
-        } else {
-            throw new Error("Data kosong");
-        }
-    } catch (err) {
-        const cached = localStorage.getItem('cbt_sman23_final');
-        if (cached) {
-            statusBox.remove();
-            mulaiUjian(JSON.parse(cached));
-        } else {
-            statusBox.innerText = "Error: Data Admin tidak ditemukan di Cloud!";
-        }
-    }
-};
-
-function mulaiUjian(config) {
-    // Di sini Bapak bisa arahkan ke halaman login ujian atau tampilkan WebView
-    console.log("Sistem Siap. URL Ujian: " + config.url);
-}
+const firebaseConfig = {
+    databaseURL: "https://belajar-cbt-default-rtdb.asia-southeast1.firebasedatabase.app/"
+  };
+  
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+  let configUjian = null;
+  
+  // Ambil data real-time dari Firebase
+  database.ref('config').on('value', (snapshot) => {
+      configUjian = snapshot.val();
+      if (configUjian) {
+          localStorage.setItem('cbt_sman23_final', JSON.stringify(configUjian));
+          console.log("Data Client terupdate otomatis.");
+      }
+  });
+  
+  function verifikasiMasuk() {
+      const pinInput = document.getElementById('input-pin').value;
+      if (!configUjian) return alert("Menghubungkan ke server...");
+  
+      if (pinInput === configUjian.pin) {
+          document.getElementById('login-area').style.display = 'none';
+          document.getElementById('exam-container').style.display = 'block';
+          document.getElementById('exam-frame').src = configUjian.url;
+      } else {
+          alert("Password Masuk Salah!");
+      }
+  }
+  
+  function verifikasiKeluar() {
+      const passKeluar = prompt("Masukkan Password Keluar:");
+      if (passKeluar === configUjian.pout) {
+          location.reload();
+      } else if (passKeluar !== null) {
+          alert("Password Keluar Salah!");
+      }
+  }
