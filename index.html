@@ -7,18 +7,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Tambahan CSS khusus agar WebView/Iframe penuh se-layar */
         #exam-container { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; background: white; }
         iframe { width: 100%; height: 100%; border: none; }
         .btn-exit { position: fixed; bottom: 20px; right: 20px; z-index: 10000; padding: 10px 20px; background: #ef4444; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .login-box { margin: auto; text-align: center; }
+        .login-box { margin: auto; text-align: center; padding: 40px; }
     </style>
 </head>
 <body style="display: flex; justify-content: center; align-items: center; height: 100vh;">
 
     <div id="login-area" class="card login-box">
-        <h2 style="color: #3b82f6; margin-bottom: 20px;">SMAN 23 BATAM</h2>
-        <p style="margin-bottom: 20px;">Masukkan Password Masuk Ujian</p>
+        <h2 style="color: #3b82f6; margin-bottom: 10px;">SMAN 23 BATAM</h2>
+        <p style="margin-bottom: 25px; opacity: 0.8;">Silahkan masukkan password ujian</p>
         <input type="password" id="input-pin" placeholder="Password Masuk" style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white;">
         <button class="btn-save" onclick="verifikasiMasuk()" style="width: 100%;">MULAI UJIAN</button>
     </div>
@@ -28,6 +27,8 @@
         <iframe id="exam-frame" src=""></iframe>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
