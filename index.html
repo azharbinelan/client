@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Siswa Portal CBT | SMAN 23 Batam</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="login-zone">
+        <div class="login-card">
+            <h2 style="color: #3b82f6;">Selamat Ujian</h2>
+            <p style="color: #94a3b8; font-size: 13px;">SMAN 23 Batam - Exam Mode</p>
+            <input type="password" id="user-pin" placeholder="Masukkan Password">
+            <button class="btn-start" onclick="startExam()">MASUK UJIAN</button>
+        </div>
+    </div>
+
+    <div id="exam-zone">
+        <div class="sidebar">
+            <h2 style="color: #3b82f6;">Jangan Lupa Berdoa</h2>
+            <div style="background: var(--primary); padding: 10px; border-radius: 8px; font-weight: bold; text-align: center;">📝 Lembar Soal</div>
+            <div style="margin-top: auto; font-size: 11px; color: #64748b;">Status: Terkunci (Fullscreen)</div>
+        </div>
+        <div class="main-content">
+            <div class="top-bar">
+                <span style="font-weight: bold;">Ujian Sedang Berlangsung</span>
+                <button onclick="keluar()" style="background: #ef4444; color: white; border: none; padding: 7px 15px; border-radius: 6px; cursor: pointer; font-weight: bold;">KELUAR</button>
+            </div>
+            <iframe id="frame-soal"></iframe>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
