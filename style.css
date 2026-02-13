@@ -90,7 +90,7 @@ input:focus {
 
 /* --- 3. AREA UJIAN --- */
 #exam-container {
-    display: none; /* Berubah jadi flex via JS */
+    display: none; 
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
     background: var(--bg-dark);
@@ -99,7 +99,7 @@ input:focus {
 
 .top-bar {
     background: var(--card-bg);
-    padding: 12px 20px;
+    padding: 8px 15px;        /* Padding dikecilkan agar bar lebih ramping */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -108,16 +108,16 @@ input:focus {
 
 .live-label {
     color: var(--primary);
-    font-size: 12px;
+    font-size: 11px;          /* Font label LIVE sedikit dikecilkan */
     font-weight: 800;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     letter-spacing: 0.5px;
 }
 
 .dot { 
-    height: 8px; width: 8px; 
+    height: 6px; width: 6px;  /* Dot diperkecil */
     background: var(--primary); 
     border-radius: 50%; 
     animation: pulse 1.5s infinite; 
@@ -129,19 +129,20 @@ input:focus {
     100% { opacity: 1; transform: scale(1); }
 }
 
-/* Tombol di Top Bar */
-.action-group { display: flex; gap: 10px; }
+/* Tombol di Top Bar - UKURAN DIPERKECIL */
+.action-group { display: flex; gap: 8px; }
 
 .btn-refresh {
-    background: rgba(59, 130, 246, 0.15);
+    background: rgba(59, 130, 246, 0.1);
     color: var(--blue-refresh);
     border: 1px solid var(--blue-refresh);
-    padding: 8px 14px;
-    border-radius: 8px;
+    padding: 5px 10px;        /* Padding tombol dikecilkan */
+    border-radius: 6px;       /* Radius disesuaikan */
     font-weight: 700;
-    font-size: 11px;
+    font-size: 10px;          /* Ukuran font diperkecil */
     cursor: pointer;
     transition: 0.3s;
+    text-transform: uppercase;
 }
 
 .btn-refresh:hover {
@@ -153,11 +154,12 @@ input:focus {
     background: var(--accent);
     color: white;
     border: none;
-    padding: 8px 16px;
-    border-radius: 8px;
+    padding: 5px 12px;        /* Padding tombol dikecilkan */
+    border-radius: 6px; 
     font-weight: 700;
-    font-size: 11px;
+    font-size: 10px;          /* Ukuran font diperkecil */
     cursor: pointer;
+    text-transform: uppercase;
 }
 
 iframe {
