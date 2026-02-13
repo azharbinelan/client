@@ -1,133 +1,114 @@
-:root { 
-    --bg-dark: #0f172a; 
-    --primary: #3b82f6; 
-    --primary-hover: #2563eb;
-    --accent: #ef4444; 
-    --card-bg: #1e293b; 
-    --text-main: #f8fafc; 
+:root {
+    --bg-dark: #0f172a;
+    --card-bg: #1e293b;
+    --primary: #3b82f6;
+    --accent: #ef4444;
+    --text: #f8fafc;
     --border: #334155;
 }
 
-body { 
-    font-family: 'Inter', sans-serif; 
-    background-color: var(--bg-dark); 
-    color: var(--text-main); 
-    margin: 0; 
-    display: flex; 
-    min-height: 100vh; 
-    overflow: hidden; 
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
 }
 
-/* LOGIN SCREEN */
-#login-area { 
-    position: fixed; 
-    width: 100%; 
-    height: 100%; 
-    background: radial-gradient(circle at top right, #1e293b, #0f172a); 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    z-index: 9999; 
-}
-
-.login-card { 
-    background: var(--card-bg); 
-    padding: 40px; 
-    border-radius: 24px; 
-    border: 1px solid var(--border); 
-    width: 360px; 
-    text-align: center; 
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-}
-
-.login-card h2 { font-weight: 700; letter-spacing: -0.5px; margin-bottom: 5px; }
-
-input { 
-    width: 100%; 
-    background: #0f172a; 
-    border: 1px solid var(--border); 
-    padding: 15px; 
-    border-radius: 12px; 
-    color: white; 
-    font-size: 16px; 
-    text-align: center; 
-    margin-bottom: 20px; 
-    box-sizing: border-box; 
-    transition: all 0.3s;
-}
-
-input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
-
-.btn-start { 
-    width: 100%; 
-    background: var(--primary); 
-    color: white; 
-    border: none; 
-    padding: 15px; 
-    border-radius: 12px; 
-    font-weight: 700; 
-    cursor: pointer; 
-    transition: background 0.3s;
-}
-
-.btn-start:hover { background: var(--primary-hover); }
-
-/* EXAM DASHBOARD */
-#exam-container { display: none; width: 100%; height: 100vh; flex-direction: row; }
-
-.sidebar { 
-    width: 260px; 
-    background: var(--card-bg); 
-    padding: 30px 20px; 
-    border-right: 1px solid var(--border); 
-    display: flex; 
-    flex-direction: column; 
-    justify-content: space-between;
-}
-
-.sidebar-title { font-weight: 700; color: var(--primary); margin-bottom: 20px; }
-
-.main-content { flex: 1; display: flex; flex-direction: column; background: #f1f5f9; }
-
-.top-bar { 
-    padding: 12px 30px; 
-    background: var(--card-bg); 
-    border-bottom: 1px solid var(--border); 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-}
-
-/* MODAL KELUAR */
-#modal-exit { 
-    display: none; 
-    position: fixed; 
-    top: 0; left: 0; width: 100%; height: 100%; 
-    background: rgba(0,0,0,0.85); 
-    backdrop-filter: blur(5px);
-    z-index: 10001; 
-    justify-content: center; 
-    align-items: center; 
-}
-
-.modal-content { 
-    background: var(--card-bg); 
-    padding: 30px; 
-    border-radius: 20px; 
+/* 1. LOGIN AREA (KEMBALI KE TENGAH) */
+#login-area {
+    background: var(--card-bg);
+    padding: 40px;
+    border-radius: 20px;
     border: 1px solid var(--border);
-    text-align: center; 
-    width: 90%; 
-    max-width: 350px; 
+    width: 340px;
+    text-align: center;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
 }
 
-.btn-exit { 
-    background: var(--accent); 
-    color: white; 
-    border: none; 
-    padding: 10px 20px; 
-    border-radius: 10px; 
-    font-weight: 600; 
-    cursor: pointer; 
+#login-area h2 { color: var(--primary); margin-top: 0; }
+
+input {
+    width: 100%;
+    background: #0f172a;
+    border: 1px solid var(--border);
+    padding: 12px;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 20px;
+    box-sizing: border-box;
 }
 
-iframe { flex: 1; width: 100%; border: none; background: white; }
+input:focus { border-color: var(--primary); outline: none; }
+
+.btn-save {
+    width: 100%;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* 2. EXAM AREA (LAYAR PENUH) */
+#exam-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 9999;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Tombol Keluar Mengapung di Pojok */
+.btn-exit {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10000;
+    padding: 10px 20px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+/* 3. MODAL PASSWORD KELUAR */
+#modal-exit {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    z-index: 10001;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    width: 300px;
+    border: 1px solid var(--border);
+}
