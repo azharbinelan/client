@@ -6,12 +6,12 @@
     --accent: #ef4444;
     --text-main: #f8fafc;
     --border: #334155;
-    /* KUNCI KESAMAAN UKURAN BOX */
-    --box-width: 350px; 
+    /* KUNCI PANJANG BOX (320px biasanya paling pas untuk layar HP) */
+    --box-width: 320px; 
 }
 
 * {
-    box-sizing: border-box; /* Wajib agar padding tidak merusak lebar */
+    box-sizing: border-box; /* Menjamin lebar tetap stabil meski ada padding */
 }
 
 body {
@@ -22,28 +22,27 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    overflow: hidden;
 }
 
-/* --- BOX UTAMA (LOGIN & MODAL DISAMAKAN) --- */
+/* --- KOTAK LOGIN & MODAL (UKURAN DISAMAKAN) --- */
 .login-box, .modal-content {
     background: var(--card-bg);
-    padding: 35px;
+    padding: 30px;            /* Padding disamakan */
     border-radius: 20px;
-    width: 90%;             /* Fleksibel untuk layar kecil */
-    max-width: var(--box-width); /* Ukuran maksimal disamakan */
+    width: 90%;               /* Responsif untuk layar kecil */
+    max-width: var(--box-width); /* Panjang box identik */
     border: 1px solid var(--border);
     text-align: center;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
 }
 
-/* --- ELEMEN INPUT (RATA KIRI KANAN) --- */
+/* --- INPUT (RATA KIRI-KANAN) --- */
 input[type="password"] {
     width: 100%;
     display: block;
     background: #ffffff;
     border: none;
-    padding: 15px;
+    padding: 14px;
     border-radius: 10px;
     color: #000;
     font-size: 16px;
@@ -52,10 +51,10 @@ input[type="password"] {
     font-weight: 600;
 }
 
-/* --- TOMBOL (RATA KIRI KANAN) --- */
+/* --- TOMBOL (RATA KIRI-KANAN) --- */
 .btn-save, .btn-keluar-final, .btn-batal {
     width: 100%;
-    padding: 15px;
+    padding: 14px;
     border: none;
     border-radius: 10px;
     font-weight: 800;
@@ -69,40 +68,21 @@ input[type="password"] {
     color: white;
 }
 
-/* --- KHUSUS TOMBOL DI DALAM MODAL --- */
+/* --- GRUP TOMBOL MODAL --- */
 .modal-actions {
     display: flex;
     gap: 10px;
-    width: 100%;
 }
 
 .btn-batal {
     background: transparent;
     border: 1px solid var(--border);
     color: white;
-    flex: 1; /* Membagi dua sama besar */
+    flex: 1; /* Panjang dibagi dua rata */
 }
 
 .btn-keluar-final {
     background: var(--accent);
     color: white;
-    flex: 1; /* Membagi dua sama besar */
-}
-
-/* --- EXAM AREA (TOP BAR) --- */
-#exam-container {
-    display: none;
-    position: fixed;
-    inset: 0;
-    flex-direction: column;
-}
-
-.top-bar {
-    background: var(--card-bg);
-    padding: 5px 15px;
-    height: 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--border);
+    flex: 1; /* Panjang dibagi dua rata */
 }
