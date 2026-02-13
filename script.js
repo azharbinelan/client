@@ -44,4 +44,4 @@ const firebaseConfig = {
     } else if (passKeluar !== null) {
         alert("Password Keluar Salah!");
     }
-}
+}}
