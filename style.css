@@ -1,9 +1,10 @@
 :root {
-    --bg-dark: #121826;     /* Warna latar belakang utama */
+    --bg-dark: #0f172a;     /* Latar belakang gelap utama */
     --card-bg: #1e293b;     /* Warna kotak login/modal */
-    --primary: #22c55e;     /* Warna hijau tombol mulai */
-    --accent: #ef4444;      /* Warna merah tombol keluar */
-    --text-main: #ffffff;
+    --primary: #22c55e;     /* Hijau (Mulai) */
+    --blue-refresh: #3b82f6; /* Biru (Refresh) */
+    --accent: #ef4444;      /* Merah (Keluar) */
+    --text-main: #f8fafc;
     --border: #334155;
 }
 
@@ -19,31 +20,53 @@ body {
     overflow: hidden;
 }
 
-/* 1. AREA LOGIN */
+/* --- 1. AREA LOGIN --- */
 #login-area {
     background: var(--card-bg);
-    padding: 40px;
-    border-radius: 20px;
-    width: 350px;
+    padding: 45px 35px;
+    border-radius: 24px;
+    width: 90%;
+    max-width: 360px;
     text-align: center;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
     border: 1px solid var(--border);
 }
 
-#login-area h2 { color: #22c55e; margin: 0 0 10px 0; font-size: 24px; }
-#login-area p { opacity: 0.7; font-size: 14px; margin-bottom: 30px; }
+#login-area h2 { 
+    color: var(--primary); 
+    margin: 0 0 8px 0; 
+    font-size: 26px; 
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
 
+#login-area p { 
+    opacity: 0.6; 
+    font-size: 14px; 
+    margin-bottom: 30px; 
+    line-height: 1.5;
+}
+
+/* --- 2. INPUT STYLE --- */
 input {
     width: 100%;
     background: #ffffff;
-    border: 1px solid var(--border);
+    border: 2px solid transparent;
     padding: 15px;
-    border-radius: 10px;
-    color: #000;
+    border-radius: 12px;
+    color: #0f172a;
     font-size: 16px;
     text-align: center;
     margin-bottom: 20px;
     box-sizing: border-box;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.2);
 }
 
 .btn-save {
@@ -51,16 +74,23 @@ input {
     background: var(--primary);
     color: white;
     border: none;
-    padding: 15px;
-    border-radius: 10px;
+    padding: 16px;
+    border-radius: 12px;
     font-weight: 800;
     cursor: pointer;
     text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: transform 0.2s, background 0.3s;
 }
 
-/* 2. AREA UJIAN (Hanya ini yang putih) */
+.btn-save:hover {
+    background: #16a34a;
+    transform: translateY(-2px);
+}
+
+/* --- 3. AREA UJIAN --- */
 #exam-container {
-    display: none;
+    display: none; /* Berubah jadi flex via JS */
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
     background: var(--bg-dark);
@@ -69,29 +99,64 @@ input {
 
 .top-bar {
     background: var(--card-bg);
-    padding: 10px 20px;
+    padding: 12px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--border);
 }
 
-.live-indicator {
-    color: #22c55e;
+.live-label {
+    color: var(--primary);
     font-size: 12px;
-    font-weight: bold;
+    font-weight: 800;
     display: flex;
     align-items: center;
     gap: 8px;
+    letter-spacing: 0.5px;
 }
 
-.btn-exit-trigger {
+.dot { 
+    height: 8px; width: 8px; 
+    background: var(--primary); 
+    border-radius: 50%; 
+    animation: pulse 1.5s infinite; 
+}
+
+@keyframes pulse {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.2); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+/* Tombol di Top Bar */
+.action-group { display: flex; gap: 10px; }
+
+.btn-refresh {
+    background: rgba(59, 130, 246, 0.15);
+    color: var(--blue-refresh);
+    border: 1px solid var(--blue-refresh);
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 11px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-refresh:hover {
+    background: var(--blue-refresh);
+    color: white;
+}
+
+.btn-exit {
     background: var(--accent);
     color: white;
     border: none;
-    padding: 8px 15px;
-    border-radius: 6px;
-    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 11px;
     cursor: pointer;
 }
 
@@ -99,42 +164,46 @@ iframe {
     flex: 1;
     width: 100%;
     border: none;
-    background: #ffffff; /* Area soal tetap putih agar jelas */
+    background: #ffffff;
 }
 
-/* 3. MODAL KELUAR */
+/* --- 4. MODAL KELUAR --- */
 #modal-exit {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.85);
     z-index: 10000;
     justify-content: center;
     align-items: center;
+    backdrop-filter: blur(5px);
 }
 
 .modal-content {
     background: var(--card-bg);
-    padding: 30px;
-    border-radius: 20px;
+    padding: 35px;
+    border-radius: 24px;
     text-align: center;
-    width: 320px;
+    width: 85%;
+    max-width: 320px;
     border: 1px solid var(--border);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.5);
 }
 
-.modal-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
+.modal-content h3 { margin: 0 0 10px 0; font-size: 20px; }
+.modal-content p { color: #94a3b8; font-size: 13px; margin-bottom: 25px; }
+
+.modal-actions { display: flex; gap: 12px; }
 
 .btn-batal {
     flex: 1;
     padding: 12px;
-    background: #475569;
+    background: transparent;
     color: white;
-    border: none;
-    border-radius: 8px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
 }
 
 .btn-keluar-final {
@@ -143,6 +212,7 @@ iframe {
     background: var(--accent);
     color: white;
     border: none;
-    border-radius: 8px;
-    font-weight: bold;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
 }
