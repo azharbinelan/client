@@ -3,69 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exambrowser | SMAN 23 Batam</title>
+    <title>Exambro | SMAN 23 Batam</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #0f172a; --card-bg: #1e293b; --primary: #22c55e;
-            --blue-refresh: #3b82f6; --accent: #ef4444; --text-main: #f8fafc; --border: #334155;
+            --bg-dark: #0f172a;
+            --primary: #22c55e;
+            --primary-glow: rgba(34, 197, 94, 0.4);
+            --accent: #ef4444;
+            --text-main: #f8fafc;
+            --card-bg: rgba(30, 41, 59, 0.6);
+            --border: rgba(255, 255, 255, 0.1);
         }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            font-family: 'Inter', sans-serif; background-color: var(--bg-dark);
-            color: var(--text-main); margin: 0; display: flex;
-            justify-content: center; align-items: center; height: 100vh; overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
         }
-        /* LOGIN BOX */
-        .login-box {
-            text-align: center; padding: 40px; background: var(--card-bg);
-            border-radius: 24px; width: 85%; max-width: 350px; border: 1px solid var(--border);
+
+        /* --- EFEK GELEMBUNG (BUBBLES) --- */
+        .bubbles {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            overflow: hidden;
         }
-        input {
-            width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 12px;
-            border: none; text-align: center; font-size: 16px; font-weight: 600;
+
+        .bubble {
+            position: absolute;
+            bottom: -100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: rise 15s infinite ease-in;
         }
+
+        @keyframes rise {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            20% { opacity: 0.3; }
+            100% { transform: translateY(-120vh) scale(1.5); opacity: 0; }
+        }
+
+        /* --- KOTAK LOGIN & MODAL (UKURAN SAMA & RAPI) --- */
+        .login-box, .modal-content {
+            background: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: 28px;
+            width: 85%;
+            max-width: 320px;
+            border: 1px solid var(--border);
+            text-align: center;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        h2 {
+            font-size: 26px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .subtitle { font-size: 11px; color: #94a3b8; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 30px; }
+
+        /* --- INPUT & TOMBOL RATA KIRI KANAN --- */
+        input[type="password"] {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            padding: 16px;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 16px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: 0.3s;
+            outline: none;
+        }
+
+        input[type="password"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
         .btn-save {
-            width: 100%; padding: 15px; background: var(--primary); color: white;
-            border: none; border-radius: 12px; font-weight: 800; cursor: pointer;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 10px 20px -5px var(--primary-glow);
+            transition: transform 0.2s;
         }
-        /* EXAM AREA */
-        #exam-container { display: none; position: fixed; inset: 0; flex-direction: column; background: var(--bg-dark); }
-        .top-bar {
-            background: var(--card-bg); padding: 4px 12px; height: 40px;
-            display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border);
-        }
-        .action-group { display: flex; gap: 8px; }
-        .btn-round {
-            width: 30px; height: 30px; border-radius: 50%; border: none;
-            display: flex; justify-content: center; align-items: center;
-            font-weight: 800; cursor: pointer; color: white;
-        }
-        .btn-refresh { background: var(--blue-refresh); font-size: 16px; }
-        .btn-exit { background: var(--accent); font-size: 12px; }
+
+        .btn-save:active { transform: scale(0.95); }
+
+        /* --- EXAM AREA --- */
+        #exam-container { display: none; position: fixed; inset: 0; flex-direction: column; z-index: 100; }
+        .top-bar { background: #1e293b; padding: 5px 15px; height: 45px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+        .btn-round { width: 32px; height: 32px; border-radius: 50%; border: none; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; }
         iframe { flex: 1; width: 100%; border: none; background: white; }
-        /* MODAL */
-        #modal-exit {
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8);
-            z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(4px);
-        }
-        .modal-content { background: var(--card-bg); padding: 30px; border-radius: 20px; text-align: center; width: 280px; }
+
+        /* --- MODAL KELUAR --- */
+        #modal-exit { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; justify-content: center; align-items: center; backdrop-filter: blur(8px); }
+        .modal-actions { display: flex; gap: 10px; margin-top: 10px; }
+        .btn-batal { background: rgba(255,255,255,0.1); color: #fff; flex: 1; padding: 12px; border-radius: 10px; border: 1px solid var(--border); cursor: pointer; }
+        .btn-keluar-final { background: var(--accent); color: white; flex: 1; padding: 12px; border-radius: 10px; border: none; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
 
+    <div class="bubbles" id="bubble-container"></div>
+
     <div id="login-area" class="login-box">
-        <h2 style="color: var(--primary); margin: 0;">SMAN 23 BATAM</h2>
-        <p style="opacity: 0.6; font-size: 12px; margin-bottom: 25px;">Sistem Ujian CBT</p>
-        <input type="password" id="input-pin" placeholder="Masukkan PIN">
+        <h2>SMAN 23 BATAM</h2>
+        <p class="subtitle">E-EXAM BROWSER</p>
+        <input type="password" id="input-pin" placeholder="PIN MASUK">
         <button class="btn-save" onclick="verifikasiMasuk()">MULAI UJIAN</button>
     </div>
 
     <div id="exam-container">
         <div class="top-bar">
-            <div style="font-size: 10px; font-weight: 800; color: var(--primary);">● LIVE EXAM</div>
-            <div class="action-group">
-                <button class="btn-round btn-refresh" onclick="refreshSoal()">↻</button>
-                <button class="btn-round btn-exit" onclick="bukaModalKeluar()">X</button>
+            <div style="color: var(--primary); font-size: 11px; font-weight: 800;">● UJIAN BERLANGSUNG</div>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn-round" style="background: #3b82f6;" onclick="refreshSoal()">↻</button>
+                <button class="btn-round" style="background: #ef4444;" onclick="bukaModalKeluar()">X</button>
             </div>
         </div>
         <iframe id="exam-frame" src=""></iframe>
@@ -73,11 +154,11 @@
 
     <div id="modal-exit">
         <div class="modal-content">
-            <h3 style="margin-top: 0;">Keluar Ujian?</h3>
-            <input type="password" id="input-pass-keluar" placeholder="Password Keluar" style="background: #fff; color: #000;">
-            <div style="display: flex; gap: 10px;">
-                <button onclick="tutupModalKeluar()" style="flex:1; padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: #fff;">Batal</button>
-                <button onclick="verifikasiKeluar()" style="flex:1; padding: 10px; border-radius: 8px; border: none; background: var(--accent); color: #fff; font-weight: bold;">Keluar</button>
+            <h3 style="margin-bottom: 20px;">Keluar Sistem?</h3>
+            <input type="password" id="input-pass-keluar" placeholder="PIN KELUAR">
+            <div class="modal-actions">
+                <button class="btn-batal" onclick="tutupModalKeluar()">BATAL</button>
+                <button class="btn-keluar-final" onclick="verifikasiKeluar()">KELUAR</button>
             </div>
         </div>
     </div>
@@ -85,5 +166,21 @@
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
     <script src="script.js"></script>
+
+    <script>
+        // Membuat gelembung secara otomatis
+        const container = document.getElementById('bubble-container');
+        for (let i = 0; i < 15; i++) {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            const size = Math.random() * 60 + 20 + 'px';
+            bubble.style.width = size;
+            bubble.style.height = size;
+            bubble.style.left = Math.random() * 100 + '%';
+            bubble.style.animationDelay = Math.random() * 10 + 's';
+            bubble.style.animationDuration = Math.random() * 10 + 10 + 's';
+            container.appendChild(bubble);
+        }
+    </script>
 </body>
 </html>
