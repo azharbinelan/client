@@ -3,235 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exambrowser | SMAN 23 Batam</title>
+    <title>Exambro SMAN 23</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* --- TEMA DARK MODE PREMIUM --- */
         :root {
-            --bg-dark: #0f172a;     /* Latar belakang gelap */
-            --card-bg: #1e293b;     /* Kotak login/modal */
-            --primary: #22c55e;     /* Hijau Terang (Mulai) */
-            --blue-accent: #3b82f6; /* Biru (Refresh) */
-            --accent: #ef4444;      /* Merah (Keluar) */
-            --text-main: #f8fafc;
-            --border: #334155;
+            --bg-dark: #0f172a; --card-bg: #1e293b; --primary: #22c55e;
+            --blue-refresh: #3b82f6; --accent: #ef4444; --border: #334155;
         }
-
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: var(--bg-dark); 
-            color: var(--text-main);
-            margin: 0; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh; 
-            overflow: hidden;
+        body {
+            font-family: 'Inter', sans-serif; background-color: var(--bg-dark);
+            margin: 0; display: flex; justify-content: center; align-items: center;
+            height: 100vh; overflow: hidden; color: #f8fafc;
         }
-
-        /* AREA LOGIN */
-        .login-box { 
-            text-align: center; 
-            padding: 45px; 
-            background: var(--card-bg); 
-            border-radius: 24px; 
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); 
-            width: 90%; 
-            max-width: 380px; 
-            border: 1px solid var(--border);
+        /* LOGIN AREA */
+        #login-area {
+            background: var(--card-bg); padding: 40px 30px; border-radius: 20px;
+            width: 85%; max-width: 350px; text-align: center; border: 1px solid var(--border);
         }
-
-        h2 { color: var(--primary); margin-bottom: 5px; font-weight: 800; letter-spacing: -1px; }
-        p { opacity: 0.6; font-size: 14px; margin-bottom: 30px; }
-
-        input { 
-            width: 100%; 
-            padding: 15px; 
-            margin-bottom: 20px; 
-            border-radius: 12px; 
-            border: 1px solid var(--border); 
-            background: #ffffff;
-            color: #000;
-            font-size: 16px; 
-            text-align: center;
-            box-sizing: border-box;
-            outline: none;
-            transition: 0.3s;
+        input {
+            width: 100%; padding: 14px; margin-bottom: 15px; border-radius: 10px;
+            border: none; text-align: center; font-size: 16px; font-weight: 600;
         }
-
-        input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.2); }
-
-        .btn-save { 
-            width: 100%; 
-            padding: 15px; 
-            background: var(--primary); 
-            color: white; 
-            border: none; 
-            border-radius: 12px; 
-            font-weight: 800; 
-            cursor: pointer; 
-            font-size: 14px;
-            letter-spacing: 1px;
-            transition: 0.3s;
+        .btn-save {
+            width: 100%; background: var(--primary); color: white; border: none;
+            padding: 15px; border-radius: 10px; font-weight: 800; cursor: pointer;
         }
-
-        .btn-save:hover { background: #16a34a; transform: translateY(-2px); }
-
-        /* AREA UJIAN */
-        #exam-container { 
-            display: none; 
-            position: fixed; 
-            top: 0; left: 0; width: 100%; height: 100%; 
-            z-index: 9999; 
-            background: var(--bg-dark); 
-            flex-direction: column;
-        }
-
+        /* EXAM AREA (TOMBOL BULAT) */
+        #exam-container { display: none; position: fixed; inset: 0; flex-direction: column; }
         .top-bar {
-            background: var(--card-bg);
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: var(--card-bg); padding: 4px 12px; height: 40px;
+            display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid var(--border);
         }
-
-        .live-label {
-            font-size: 12px;
-            font-weight: 800;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .action-group { display: flex; gap: 10px; }
+        .btn-round {
+            width: 28px; height: 28px; border-radius: 50%; border: none;
+            display: flex; justify-content: center; align-items: center;
+            font-weight: 800; cursor: pointer; color: white;
         }
-
-        .dot { height: 8px; width: 8px; background: var(--primary); border-radius: 50%; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-
-        /* TOMBOL TOPBAR */
-        .action-buttons { display: flex; gap: 10px; }
-
-        .btn-refresh {
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--blue-accent);
-            border: 1px solid var(--blue-accent);
-            padding: 8px 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 12px;
-            transition: 0.3s;
-        }
-        .btn-refresh:hover { background: var(--blue-accent); color: white; }
-
-        .btn-exit { 
-            background: var(--accent); 
-            color: white; 
-            border: none; 
-            padding: 8px 16px; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            font-weight: 700; 
-            font-size: 12px;
-        }
-
+        .btn-refresh { background: var(--blue-refresh); font-size: 16px; }
+        .btn-exit { background: var(--accent); font-size: 12px; }
         iframe { flex: 1; width: 100%; border: none; background: white; }
-
-        /* MODAL KELUAR */
-        #modal-exit { 
-            display: none; 
-            position: fixed; 
-            top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.85); 
-            z-index: 10001; 
-            justify-content: center; 
-            align-items: center; 
-            backdrop-filter: blur(4px);
-        }
-
-        .modal-content { 
-            background: var(--card-bg); 
-            padding: 35px; 
-            border-radius: 24px; 
-            text-align: center; 
-            width: 90%; 
-            max-width: 340px; 
-            border: 1px solid var(--border);
-        }
-
-        .modal-content h3 { margin-top: 0; color: #fff; }
-        .btn-batal { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: transparent; color: white; cursor: pointer; }
-        .btn-confirm-exit { flex: 1; padding: 12px; border-radius: 10px; border: none; background: var(--accent); color: white; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
-
-    <div id="login-area" class="login-box">
-        <h2>SMAN 23 BATAM</h2>
-        <p>Sistem Ujian Computer Based Test</p>
-        <input type="password" id="input-pin" placeholder="Masukkan PIN Masuk">
-        <button class="btn-save" onclick="verifikasiMasuk()">MULAI UJIAN</button>
+    <div id="login-area">
+        <h2 style="color: var(--primary)">SMAN 23</h2>
+        <input type="password" id="input-pin" placeholder="PIN MASUK">
+        <button class="btn-save" onclick="verifikasiMasuk()">MULAI</button>
     </div>
 
     <div id="exam-container">
         <div class="top-bar">
-            <div class="live-label"><span class="dot"></span> LIVE EXAM MODE</div>
-            <div class="action-buttons">
-                <button class="btn-refresh" onclick="refreshSoal()">↻ REFRESH</button>
-                <button class="btn-exit" onclick="bukaModalKeluar()">KELUAR UJIAN</button>
+            <div style="font-size: 10px; font-weight: 800; color: var(--primary)">LIVE EXAM</div>
+            <div class="action-group">
+                <button class="btn-round btn-refresh" onclick="refreshSoal()">↻</button>
+                <button class="btn-round btn-exit" onclick="bukaModalKeluar()">X</button>
             </div>
         </div>
         <iframe id="exam-frame" src=""></iframe>
     </div>
-
-    <div id="modal-exit">
-        <div class="modal-content">
-            <h3>Konfirmasi Keluar</h3>
-            <p style="font-size: 13px; color: #94a3b8; margin-bottom: 20px;">Masukkan password pengawas untuk menutup aplikasi</p>
-            <input type="password" id="input-pass-keluar" placeholder="Password Keluar">
-            <div style="display: flex; gap: 10px;">
-                <button onclick="tutupModalKeluar()" class="btn-batal">Batal</button>
-                <button onclick="verifikasiKeluar()" class="btn-confirm-exit">Keluar</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
     <script src="script.js"></script>
-
-    <script>
-        // Fungsi Refresh Soal
-        function refreshSoal() {
-            const frame = document.getElementById('exam-frame');
-            if (frame.src) {
-                const currentSrc = frame.src;
-                frame.src = ""; 
-                frame.src = currentSrc;
-                console.log("Soal direfresh.");
-            }
-        }
-
-        function bukaModalKeluar() {
-            document.getElementById('modal-exit').style.display = 'flex';
-            document.getElementById('input-pass-keluar').focus();
-        }
-
-        function tutupModalKeluar() {
-            document.getElementById('modal-exit').style.display = 'none';
-            document.getElementById('input-pass-keluar').value = '';
-        }
-
-        const originalVerifikasiMasuk = window.verifikasiMasuk;
-        window.verifikasiMasuk = function() {
-            if (typeof originalVerifikasiMasuk === 'function') {
-                originalVerifikasiMasuk();
-                setTimeout(() => {
-                    const examCont = document.getElementById('exam-container');
-                    if (examCont.style.display === 'block') examCont.style.display = 'flex';
-                }, 100);
-            }
-        };
-    </script>
 </body>
 </html>
