@@ -1,58 +1,84 @@
+// 1. Konfigurasi Firebase
 const firebaseConfig = {
     databaseURL: "https://belajar-cbt-default-rtdb.asia-southeast1.firebasedatabase.app/"
 };
 
-firebase.initializeApp(firebaseConfig);
+// Inisialisasi Firebase
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
 const database = firebase.database();
 let configUjian = null;
 
-// Ambil data real-time dari Firebase
+// 2. Ambil data real-time dari Firebase
+// Menggunakan referensi 'config' sesuai database Bapak
 database.ref('config').on('value', (snapshot) => {
-    configUjian = snapshot.val();
-    if (configUjian) {
-        localStorage.setItem('cbt_sman23_final', JSON.stringify(configUjian));
-        console.log("Data Client terupdate otomatis.");
+    const data = snapshot.val();
+    if (data) {
+        configUjian = data;
+        localStorage.setItem('cbt_sman23_final', JSON.stringify(data));
+        console.log("Konfigurasi ujian diperbarui dari server.");
+    } else {
+        console.error("Gagal mengambil data: Path 'config' kosong di Firebase.");
     }
+}, (error) => {
+    console.error("Firebase Error: ", error);
 });
 
-// FUNGSI MASUK UJIAN
+// 3. FUNGSI MASUK UJIAN (Login)
 function verifikasiMasuk() {
     const pinInput = document.getElementById('input-pin').value;
     
+    // Pastikan data config sudah terambil dari Firebase
     if (!configUjian) {
-        return alert("Sedang menghubungkan ke server Firebase...");
+        alert("Menghubungkan ke server... Pastikan internet aktif.");
+        return;
     }
 
+    // Validasi PIN Masuk
     if (pinInput === configUjian.pin) {
         document.getElementById('login-area').style.display = 'none';
         document.getElementById('exam-container').style.display = 'block';
-        document.getElementById('exam-frame').src = configUjian.url;
         
-        // Opsional: Beritahu Android bahwa ujian sudah dimulai
-        console.log("Login Berhasil, Memulai Ujian...");
+        // Memasukkan URL soal ke dalam Iframe
+        const examFrame = document.getElementById('exam-frame');
+        if (examFrame) {
+            examFrame.src = configUjian.url;
+        }
+        
+        console.log("Akses diberikan. Selamat mengerjakan.");
     } else {
         alert("Password Masuk Salah!");
     }
 }
 
-// FUNGSI KELUAR APLIKASI (Disesuaikan dengan Android Java)
+// 4. FUNGSI KELUAR APLIKASI (Keluar dari Mode Kunci Android)
 function verifikasiKeluar() {
-    // Memastikan config sudah terload agar pout bisa dibaca
-    if (!configUjian) return alert("Gagal memvalidasi. Cek koneksi internet.");
+    // Validasi data config
+    if (!configUjian) {
+        alert("Data konfigurasi tidak ditemukan. Cek koneksi.");
+        return;
+    }
 
     const passKeluar = prompt("Masukkan Password Keluar:");
     
+    // Jika user menekan 'Batal' atau mengosongkan input
+    if (passKeluar === null || passKeluar === "") return;
+
+    // Cek kecocokan password keluar (pout)
     if (passKeluar === configUjian.pout) {
-        // CEK: Apakah dibuka lewat aplikasi Android (Exambro)
-        if (window.AndroidControl) {
-            // Memanggil fungsi di Java (MainActivity.java)
+        
+        // CEK: Apakah terdeteksi jembatan ke Android Java?
+        if (typeof window.AndroidControl !== 'undefined' && window.AndroidControl.keluarAplikasi) {
+            console.log("Mengirim perintah keluar ke Android...");
             window.AndroidControl.keluarAplikasi();
         } else {
-            // Jika dibuka di browser laptop/Chrome biasa
-            alert("Ujian Selesai. Kembali ke halaman login.");
+            // Jika dibuka lewat browser Chrome/Laptop biasa
+            alert("Ujian Selesai. (Mode Browser)");
             location.reload(); 
         }
-    } else if (passKeluar !== null) {
-        alert("Password Keluar Salah!");
+        
+    } else {
+        alert("Password Keluar Salah! Hubungi pengawas.");
     }
 }
