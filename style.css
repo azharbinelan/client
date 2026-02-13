@@ -61,7 +61,7 @@ input {
     text-transform: uppercase;
 }
 
-/* --- 2. AREA UJIAN (ULTRA MINIMALIS) --- */
+/* --- 2. AREA UJIAN (TOP BAR TIPIS & TOMBOL BULAT) --- */
 #exam-container {
     display: none;
     position: fixed;
@@ -77,7 +77,7 @@ input {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--border);
-    height: 38px; /* Barisan atas sangat ramping */
+    height: 40px; /* Sangat ramping agar area soal luas */
 }
 
 .live-label {
@@ -87,7 +87,6 @@ input {
     display: flex;
     align-items: center;
     gap: 5px;
-    text-transform: uppercase;
 }
 
 .dot { 
@@ -103,36 +102,48 @@ input {
     100% { opacity: 1; }
 }
 
-/* Group Tombol Aksi */
-.action-group { display: flex; gap: 6px; }
+/* Group Tombol Aksi Bulat */
+.action-group { display: flex; gap: 10px; align-items: center; }
 
 .btn-refresh {
     background: rgba(59, 130, 246, 0.1);
     color: var(--blue-refresh);
     border: 1px solid var(--blue-refresh);
-    padding: 3px 8px;
-    border-radius: 5px;
-    font-weight: 800;
-    font-size: 9px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%; /* Bulat Sempurna */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
     cursor: pointer;
+    padding: 0;
+    transition: 0.3s;
 }
+
+.btn-refresh:hover { background: var(--blue-refresh); color: white; }
 
 .btn-exit {
     background: var(--accent);
     color: white;
     border: none;
-    padding: 3px 10px;
-    border-radius: 5px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%; /* Bulat Sempurna */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
     font-weight: 800;
-    font-size: 9px;
     cursor: pointer;
+    padding: 0;
 }
 
 iframe {
     flex: 1;
     width: 100%;
     border: none;
-    background: #ffffff; /* Area soal tetap putih bersih */
+    background: #ffffff; /* Area soal tetap putih */
 }
 
 /* --- 3. MODAL KELUAR --- */
@@ -158,24 +169,5 @@ iframe {
 }
 
 .modal-actions { display: flex; gap: 10px; margin-top: 15px; }
-
-.btn-batal {
-    flex: 1;
-    padding: 10px;
-    background: transparent;
-    color: white;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-size: 12px;
-}
-
-.btn-keluar-final {
-    flex: 1;
-    padding: 10px;
-    background: var(--accent);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: 800;
-    font-size: 12px;
-}
+.btn-batal { flex: 1; padding: 10px; background: transparent; color: white; border: 1px solid var(--border); border-radius: 8px; font-size: 12px; }
+.btn-keluar-final { flex: 1; padding: 10px; background: var(--accent); color: white; border: none; border-radius: 8px; font-weight: 800; font-size: 12px; }
