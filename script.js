@@ -27,21 +27,25 @@ const firebaseConfig = {
           alert("Password Masuk Salah!");
       }
   }
-  
-  function verifikasiKeluar() {
+
+function verifikasiKeluar() {
     const passKeluar = prompt("Masukkan Password Keluar:");
     
+    // Cek apakah password yang diinput sesuai dengan configUjian.pout
     if (passKeluar === configUjian.pout) {
-        // Cek apakah sedang dibuka di aplikasi Android (Exambro)
+        
+        // CEK: Apakah sedang dibuka lewat aplikasi Android Exambro?
         if (window.AndroidControl) {
-            // Memerintahkan Android untuk lepas kunci dan tutup aplikasi
+            // Memanggil fungsi di Java Android untuk lepas kunci dan tutup
             window.AndroidControl.keluarAplikasi();
         } else {
-            // Jika dibuka di browser laptop/HP biasa, cukup refresh atau pindah halaman
-            alert("Ujian Selesai");
-            location.reload();
+            // Jika dibuka di browser laptop/Chrome biasa
+            alert("Ujian Selesai. Anda akan diarahkan ke halaman awal.");
+            window.location.href = "/"; // Atau ganti ke halaman lain
         }
+        
     } else if (passKeluar !== null) {
-        alert("Password Keluar Salah!");
+        // Jika password salah dan bukan menekan tombol 'Cancel'
+        alert("Password Keluar Salah! Silakan hubungi pengawas.");
     }
-}}
+}
