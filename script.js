@@ -29,10 +29,22 @@ const firebaseConfig = {
   }
   
   function verifikasiKeluar() {
-      const passKeluar = prompt("Masukkan Password Keluar:");
-      if (passKeluar === configUjian.pout) {
-          location.reload();
-      } else if (passKeluar !== null) {
-          alert("Password Keluar Salah!");
+    const passKeluar = prompt("Masukkan Password Keluar:");
+    
+    if (passKeluar === configUjian.pout) {
+        // Cek apakah sedang dibuka di aplikasi Android (Exambro)
+        if (window.AndroidControl) {
+            // Memerintahkan Android untuk lepas kunci dan tutup aplikasi
+            window.AndroidControl.keluarAplikasi();
+        } else {
+            // Jika dibuka di browser laptop/HP biasa, cukup refresh atau pindah halaman
+            alert("Ujian Selesai");
+            location.reload();
+        }
+    } else if (passKeluar !== null) {
+        alert("Password Keluar Salah!");
+    }
+}
       }
   }
+
