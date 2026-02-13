@@ -8,10 +8,14 @@
     --border: #334155;
 }
 
+/* --- RESET GLOBAL AGAR SEMUA RATA --- */
+* {
+    box-sizing: border-box; /* Kunci agar padding tidak merusak lebar kiri-kanan */
+}
+
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-dark);
-    color: var(--text-main);
     margin: 0;
     display: flex;
     justify-content: center;
@@ -20,116 +24,75 @@ body {
     overflow: hidden;
 }
 
-/* --- 1. AREA LOGIN (SAMA RATA) --- */
+/* --- AREA LOGIN (RATA KIRI KANAN) --- */
 .login-box {
     text-align: center;
-    padding: 40px 30px;
+    padding: 35px;
     background: var(--card-bg);
-    border-radius: 24px;
-    width: 85%;
+    border-radius: 20px;
+    width: 90%;
     max-width: 350px;
     border: 1px solid var(--border);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-    /* Memastikan konten di dalam box tidak keluar */
-    box-sizing: border-box; 
 }
 
-#login-area h2 { color: var(--primary); margin: 0 0 10px 0; font-size: 24px; font-weight: 800; }
-
-input {
-    width: 100%;
+/* Style untuk Input PIN dan Input Modal Keluar */
+input[type="password"] {
+    width: 100%;             /* Memenuhi lebar box */
+    display: block;          /* Berdiri sendiri */
     background: #ffffff;
-    border: 2px solid transparent;
+    border: none;
     padding: 15px;
-    border-radius: 12px;
-    color: #0f172a;
+    border-radius: 10px;
+    color: #000;
     font-size: 16px;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 20px;    /* Jarak ke tombol */
     font-weight: 600;
-    /* KUNCI AGAR SAMA RATA */
-    box-sizing: border-box; 
-    display: block;
 }
 
-input:focus {
-    outline: none;
-    border-color: var(--primary);
-}
-
+/* Tombol Mulai (RATA DENGAN INPUT) */
 .btn-save {
-    width: 100%;
+    width: 100%;             /* Lebar sama persis dengan input */
     padding: 15px;
     background: var(--primary);
     color: white;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     font-weight: 800;
     cursor: pointer;
     text-transform: uppercase;
-    /* KUNCI AGAR SAMA RATA */
-    box-sizing: border-box;
     display: block;
-    transition: transform 0.2s;
 }
 
-.btn-save:hover { transform: translateY(-2px); }
-
-/* --- 2. AREA UJIAN (TOP BAR & TOMBOL BULAT) --- */
-#exam-container {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: var(--bg-dark);
-    flex-direction: column;
-}
-
-.top-bar {
+/* --- AREA MODAL KELUAR (RATA KIRI KANAN) --- */
+.modal-content {
     background: var(--card-bg);
-    padding: 4px 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--border);
-    height: 40px;
-    box-sizing: border-box;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    width: 85%;
+    max-width: 320px;
+    border: 1px solid var(--border);
 }
 
-.live-label { color: var(--primary); font-size: 10px; font-weight: 800; display: flex; align-items: center; gap: 5px; }
+/* Memastikan input di dalam modal juga rata kiri-kanan */
+.modal-content input {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
 
-.dot { height: 5px; width: 5px; background: var(--primary); border-radius: 50%; animation: pulse 1.5s infinite; }
-@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-
-.action-group { display: flex; gap: 10px; align-items: center; }
-
-.btn-round {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
+.modal-actions {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.btn-batal, .btn-keluar-final {
+    flex: 1;                /* Membagi ruang sama besar agar rata */
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 700;
     cursor: pointer;
     border: none;
-    padding: 0;
-    color: white;
-    font-weight: 800;
-    transition: 0.3s;
-}
-
-.btn-refresh { background: var(--blue-refresh); font-size: 16px; border: 1px solid rgba(255,255,255,0.2); }
-.btn-exit { background: var(--accent); font-size: 12px; }
-
-iframe { flex: 1; width: 100%; border: none; background: white; }
-
-/* --- 3. MODAL KELUAR --- */
-#modal-exit {
-    display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85);
-    z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(4px);
-}
-
-.modal-content {
-    background: var(--card-bg); padding: 30px; border-radius: 20px;
-    text-align: center; width: 80%; max-width: 300px; border: 1px solid var(--border);
-    box-sizing: border-box;
 }
