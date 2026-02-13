@@ -1,4 +1,3 @@
-console.log(window.AndroidControl)
 // 1. Konfigurasi Firebase
 const firebaseConfig = {
     databaseURL: "https://belajar-cbt-default-rtdb.asia-southeast1.firebasedatabase.app/"
@@ -11,76 +10,89 @@ if (!firebase.apps.length) {
 const database = firebase.database();
 let configUjian = null;
 
+// Cek status jembatan Android di Konsol (untuk Debugging)
+console.log("Status AndroidControl:", window.AndroidControl);
+
 // 2. Ambil data real-time dari Firebase
-// Menggunakan referensi 'config' sesuai database Bapak
 database.ref('config').on('value', (snapshot) => {
     const data = snapshot.val();
     if (data) {
         configUjian = data;
         localStorage.setItem('cbt_sman23_final', JSON.stringify(data));
-        console.log("Konfigurasi ujian diperbarui dari server.");
+        console.log("Konfigurasi ujian diperbarui.");
     } else {
-        console.error("Gagal mengambil data: Path 'config' kosong di Firebase.");
+        console.error("Path 'config' kosong di Firebase.");
     }
 }, (error) => {
     console.error("Firebase Error: ", error);
 });
 
-// 3. FUNGSI MASUK UJIAN (Login)
+// 3. FUNGSI MASUK UJIAN
 function verifikasiMasuk() {
     const pinInput = document.getElementById('input-pin').value;
     
-    // Pastikan data config sudah terambil dari Firebase
     if (!configUjian) {
         alert("Menghubungkan ke server... Pastikan internet aktif.");
         return;
     }
 
-    // Validasi PIN Masuk
     if (pinInput === configUjian.pin) {
         document.getElementById('login-area').style.display = 'none';
         document.getElementById('exam-container').style.display = 'block';
         
-        // Memasukkan URL soal ke dalam Iframe
         const examFrame = document.getElementById('exam-frame');
         if (examFrame) {
             examFrame.src = configUjian.url;
         }
         
-        console.log("Akses diberikan. Selamat mengerjakan.");
+        console.log("Login Berhasil.");
     } else {
         alert("Password Masuk Salah!");
     }
 }
 
-// 4. FUNGSI KELUAR APLIKASI (Keluar dari Mode Kunci Android)
+// 4. FUNGSI KELUAR APLIKASI (Sinkron dengan Modal HTML)
 function verifikasiKeluar() {
-    // Validasi data config
+    // Ambil nilai dari input modal password keluar
+    const inputPassElemen = document.getElementById('input-pass-keluar');
+    const passKeluar = inputPassElemen.value;
+
     if (!configUjian) {
-        alert("Data konfigurasi tidak ditemukan. Cek koneksi.");
+        alert("Data konfigurasi tidak ditemukan.");
         return;
     }
 
-    const passKeluar = prompt("Masukkan Password Keluar:");
-    
-    // Jika user menekan 'Batal' atau mengosongkan input
-    if (passKeluar === null || passKeluar === "") return;
+    if (passKeluar === "") {
+        alert("Masukkan password terlebih dahulu.");
+        return;
+    }
 
-    // Cek kecocokan password keluar (pout)
+    // Validasi Password Keluar
     if (passKeluar === configUjian.pout) {
         
-        // CEK: Apakah terdeteksi jembatan ke Android Java?
+        // Panggil Jembatan Android Studio
         if (typeof window.AndroidControl !== 'undefined' && window.AndroidControl.keluarAplikasi) {
-            console.log("Mengirim perintah keluar ke Android...");
+            console.log("Perintah keluar dikirim ke Android.");
             window.AndroidControl.keluarAplikasi();
         } else {
-            // Jika dibuka lewat browser Chrome/Laptop biasa
-            alert("Ujian Selesai. (Mode Browser)");
+            // Mode Browser Biasa
+            alert("Ujian Selesai. Aplikasi akan dimuat ulang.");
             location.reload(); 
         }
         
     } else {
-        alert("Password Keluar Salah! Hubungi pengawas.");
+        alert("Password Keluar Salah!");
+        inputPassElemen.value = ""; // Bersihkan kolom jika salah
     }
 }
 
+// Fungsi bantu untuk modal (tambahkan jika belum ada di HTML)
+window.bukaModalKeluar = function() {
+    document.getElementById('modal-exit').style.display = 'flex';
+    document.getElementById('input-pass-keluar').focus();
+};
+
+window.tutupModalKeluar = function() {
+    document.getElementById('modal-exit').style.display = 'none';
+    document.getElementById('input-pass-keluar').value = '';
+};
