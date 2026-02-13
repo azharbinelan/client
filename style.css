@@ -6,61 +6,69 @@
     --accent: #ef4444;
     --text-main: #f8fafc;
     --border: #334155;
-    /* KUNCI PANJANG BOX (320px biasanya paling pas untuk layar HP) */
     --box-width: 320px; 
 }
 
+/* 1. RESET TOTAL SEMUA ELEMEN */
 * {
-    box-sizing: border-box; /* Menjamin lebar tetap stabil meski ada padding */
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0;
 }
 
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-dark);
-    margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
 }
 
-/* --- KOTAK LOGIN & MODAL (UKURAN DISAMAKAN) --- */
+/* 2. KOTAK LOGIN & MODAL (SAMA PERSIS) */
 .login-box, .modal-content {
     background: var(--card-bg);
-    padding: 30px;            /* Padding disamakan */
+    padding: 35px;
     border-radius: 20px;
-    width: 90%;               /* Responsif untuk layar kecil */
-    max-width: var(--box-width); /* Panjang box identik */
+    width: 90%;
+    max-width: var(--box-width);
     border: 1px solid var(--border);
     text-align: center;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    /* Hilangkan kemungkinan ada padding yang aneh */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; 
 }
 
-/* --- INPUT (RATA KIRI-KANAN) --- */
+/* 3. INPUT (DIKUNCI AGAR RATA KIRI-KANAN) */
 input[type="password"] {
     width: 100%;
-    display: block;
     background: #ffffff;
     border: none;
-    padding: 14px;
+    outline: none;
+    padding: 15px;
     border-radius: 10px;
     color: #000;
     font-size: 16px;
     text-align: center;
     margin-bottom: 20px;
     font-weight: 600;
+    /* Paksa agar tidak ada margin tambahan */
+    display: block;
 }
 
-/* --- TOMBOL (RATA KIRI-KANAN) --- */
+/* 4. TOMBOL (DIKUNCI AGAR RATA KIRI-KANAN) */
 .btn-save, .btn-keluar-final, .btn-batal {
     width: 100%;
-    padding: 14px;
+    padding: 15px;
     border: none;
     border-radius: 10px;
     font-weight: 800;
     cursor: pointer;
     text-transform: uppercase;
     display: block;
+    /* Pastikan tidak ada bayangan border yang menggeser posisi */
+    box-shadow: none;
 }
 
 .btn-save {
@@ -68,7 +76,7 @@ input[type="password"] {
     color: white;
 }
 
-/* --- GRUP TOMBOL MODAL --- */
+/* 5. MODAL ACTIONS (TOMBOL KELUAR RATA KIRI-KANAN) */
 .modal-actions {
     display: flex;
     gap: 10px;
@@ -78,11 +86,11 @@ input[type="password"] {
     background: transparent;
     border: 1px solid var(--border);
     color: white;
-    flex: 1; /* Panjang dibagi dua rata */
+    flex: 1;
 }
 
 .btn-keluar-final {
     background: var(--accent);
     color: white;
-    flex: 1; /* Panjang dibagi dua rata */
+    flex: 1;
 }
