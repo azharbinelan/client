@@ -45,5 +45,3 @@ const firebaseConfig = {
         alert("Password Keluar Salah!");
     }
 }
-      
-  
