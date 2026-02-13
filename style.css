@@ -6,11 +6,12 @@
     --accent: #ef4444;
     --text-main: #f8fafc;
     --border: #334155;
+    /* KUNCI KESAMAAN UKURAN BOX */
+    --box-width: 350px; 
 }
 
-/* --- RESET GLOBAL AGAR SEMUA RATA --- */
 * {
-    box-sizing: border-box; /* Kunci agar padding tidak merusak lebar kiri-kanan */
+    box-sizing: border-box; /* Wajib agar padding tidak merusak lebar */
 }
 
 body {
@@ -24,21 +25,22 @@ body {
     overflow: hidden;
 }
 
-/* --- AREA LOGIN (RATA KIRI KANAN) --- */
-.login-box {
-    text-align: center;
-    padding: 35px;
+/* --- BOX UTAMA (LOGIN & MODAL DISAMAKAN) --- */
+.login-box, .modal-content {
     background: var(--card-bg);
+    padding: 35px;
     border-radius: 20px;
-    width: 90%;
-    max-width: 350px;
+    width: 90%;             /* Fleksibel untuk layar kecil */
+    max-width: var(--box-width); /* Ukuran maksimal disamakan */
     border: 1px solid var(--border);
+    text-align: center;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
 }
 
-/* Style untuk Input PIN dan Input Modal Keluar */
+/* --- ELEMEN INPUT (RATA KIRI KANAN) --- */
 input[type="password"] {
-    width: 100%;             /* Memenuhi lebar box */
-    display: block;          /* Berdiri sendiri */
+    width: 100%;
+    display: block;
     background: #ffffff;
     border: none;
     padding: 15px;
@@ -46,16 +48,14 @@ input[type="password"] {
     color: #000;
     font-size: 16px;
     text-align: center;
-    margin-bottom: 20px;    /* Jarak ke tombol */
+    margin-bottom: 20px;
     font-weight: 600;
 }
 
-/* Tombol Mulai (RATA DENGAN INPUT) */
-.btn-save {
-    width: 100%;             /* Lebar sama persis dengan input */
+/* --- TOMBOL (RATA KIRI KANAN) --- */
+.btn-save, .btn-keluar-final, .btn-batal {
+    width: 100%;
     padding: 15px;
-    background: var(--primary);
-    color: white;
     border: none;
     border-radius: 10px;
     font-weight: 800;
@@ -64,35 +64,45 @@ input[type="password"] {
     display: block;
 }
 
-/* --- AREA MODAL KELUAR (RATA KIRI KANAN) --- */
-.modal-content {
-    background: var(--card-bg);
-    padding: 30px;
-    border-radius: 20px;
-    text-align: center;
-    width: 85%;
-    max-width: 320px;
-    border: 1px solid var(--border);
+.btn-save {
+    background: var(--primary);
+    color: white;
 }
 
-/* Memastikan input di dalam modal juga rata kiri-kanan */
-.modal-content input {
-    width: 100%;
-    margin-top: 10px;
-    margin-bottom: 20px;
-}
-
+/* --- KHUSUS TOMBOL DI DALAM MODAL --- */
 .modal-actions {
     display: flex;
     gap: 10px;
     width: 100%;
 }
 
-.btn-batal, .btn-keluar-final {
-    flex: 1;                /* Membagi ruang sama besar agar rata */
-    padding: 12px;
-    border-radius: 8px;
-    font-weight: 700;
-    cursor: pointer;
-    border: none;
+.btn-batal {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: white;
+    flex: 1; /* Membagi dua sama besar */
+}
+
+.btn-keluar-final {
+    background: var(--accent);
+    color: white;
+    flex: 1; /* Membagi dua sama besar */
+}
+
+/* --- EXAM AREA (TOP BAR) --- */
+#exam-container {
+    display: none;
+    position: fixed;
+    inset: 0;
+    flex-direction: column;
+}
+
+.top-bar {
+    background: var(--card-bg);
+    padding: 5px 15px;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
 }
