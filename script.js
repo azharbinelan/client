@@ -1,3 +1,4 @@
+console.log(window.AndroidControl)
 // 1. Konfigurasi Firebase
 const firebaseConfig = {
     databaseURL: "https://belajar-cbt-default-rtdb.asia-southeast1.firebasedatabase.app/"
@@ -82,3 +83,4 @@ function verifikasiKeluar() {
         alert("Password Keluar Salah! Hubungi pengawas.");
     }
 }
+
