@@ -7,28 +7,62 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; margin: 0; }
         #exam-container { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; background: white; }
         iframe { width: 100%; height: 100%; border: none; }
-        .btn-exit { position: fixed; bottom: 20px; right: 20px; z-index: 10000; padding: 10px 20px; background: #ef4444; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .login-box { margin: auto; text-align: center; padding: 40px; }
+        
+        /* Tombol Keluar Mengapung */
+        .btn-exit { position: fixed; bottom: 20px; right: 20px; z-index: 10000; padding: 12px 24px; background: #ef4444; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        
+        /* Desain Modal Password Keluar */
+        #modal-exit { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10001; justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 30px; border-radius: 12px; text-align: center; width: 90%; max-width: 350px; }
+        
+        .login-box { text-align: center; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); width: 90%; max-width: 400px; }
+        input { box-sizing: border-box; }
     </style>
 </head>
 <body style="display: flex; justify-content: center; align-items: center; height: 100vh;">
 
-    <div id="login-area" class="card login-box">
-        <h2 style="color: #3b82f6; margin-bottom: 10px;">SMAN 23 BATAM</h2>
-        <p style="margin-bottom: 25px; opacity: 0.8;">Silahkan masukkan password ujian</p>
-        <input type="password" id="input-pin" placeholder="Password Masuk" style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white;">
-        <button class="btn-save" onclick="verifikasiMasuk()" style="width: 100%;">MULAI UJIAN</button>
+    <div id="login-area" class="login-box">
+        <h2 style="color: #3b82f6; margin-bottom: 10px; font-weight: 700;">SMAN 23 BATAM</h2>
+        <p style="margin-bottom: 25px; opacity: 0.7; font-size: 14px;">Silahkan masukkan password masuk ujian</p>
+        <input type="password" id="input-pin" placeholder="Password Masuk" style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 16px;">
+        <button class="btn-save" onclick="verifikasiMasuk()" style="width: 100%; padding: 12px; background: #3b82f6; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">MULAI UJIAN</button>
     </div>
 
     <div id="exam-container">
-        <button class="btn-exit" onclick="verifikasiKeluar()">KELUAR UJIAN</button>
+        <button class="btn-exit" onclick="bukaModalKeluar()">KELUAR UJIAN</button>
         <iframe id="exam-frame" src=""></iframe>
+    </div>
+
+    <div id="modal-exit">
+        <div class="modal-content">
+            <h3 style="margin-top: 0; color: #1e293b;">Konfirmasi Keluar</h3>
+            <p style="font-size: 13px; color: #64748b; margin-bottom: 20px;">Masukkan password pengawas untuk menutup aplikasi</p>
+            <input type="password" id="input-pass-keluar" placeholder="Password Keluar" style="width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #cbd5e1;">
+            <div style="display: flex; gap: 10px;">
+                <button onclick="tutupModalKeluar()" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; background: #f1f5f9; cursor: pointer;">Batal</button>
+                <button onclick="verifikasiKeluar()" style="flex: 1; padding: 10px; border-radius: 8px; border: none; background: #ef4444; color: white; cursor: pointer; font-weight: bold;">Keluar</button>
+            </div>
+        </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
     <script src="script.js"></script>
+
+    <script>
+        // Fungsi Tambahan untuk Modal
+        function bukaModalKeluar() {
+            document.getElementById('modal-exit').style.display = 'flex';
+            document.getElementById('input-pass-keluar').focus();
+        }
+
+        function tutupModalKeluar() {
+            document.getElementById('modal-exit').style.display = 'none';
+            document.getElementById('input-pass-keluar').value = '';
+        }
+    </script>
 </body>
 </html>
