@@ -11,6 +11,7 @@
             --bg-dark: #0f172a;     /* Latar belakang gelap */
             --card-bg: #1e293b;     /* Kotak login/modal */
             --primary: #22c55e;     /* Hijau Terang (Mulai) */
+            --blue-accent: #3b82f6; /* Biru (Refresh) */
             --accent: #ef4444;      /* Merah (Keluar) */
             --text-main: #f8fafc;
             --border: #334155;
@@ -49,7 +50,7 @@
             margin-bottom: 20px; 
             border-radius: 12px; 
             border: 1px solid var(--border); 
-            background: #ffffff; /* Input tetap putih agar kontras saat mengetik */
+            background: #ffffff;
             color: #000;
             font-size: 16px; 
             text-align: center;
@@ -86,7 +87,6 @@
             flex-direction: column;
         }
 
-        /* Top Bar saat Ujian */
         .top-bar {
             background: var(--card-bg);
             padding: 10px 20px;
@@ -106,10 +106,23 @@
         }
 
         .dot { height: 8px; width: 8px; background: var(--primary); border-radius: 50%; animation: pulse 1.5s infinite; }
-
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
-        iframe { flex: 1; width: 100%; border: none; background: white; } /* AREA SOAL TETAP PUTIH */
+        /* TOMBOL TOPBAR */
+        .action-buttons { display: flex; gap: 10px; }
+
+        .btn-refresh {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--blue-accent);
+            border: 1px solid var(--blue-accent);
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 12px;
+            transition: 0.3s;
+        }
+        .btn-refresh:hover { background: var(--blue-accent); color: white; }
 
         .btn-exit { 
             background: var(--accent); 
@@ -121,6 +134,8 @@
             font-weight: 700; 
             font-size: 12px;
         }
+
+        iframe { flex: 1; width: 100%; border: none; background: white; }
 
         /* MODAL KELUAR */
         #modal-exit { 
@@ -145,10 +160,8 @@
         }
 
         .modal-content h3 { margin-top: 0; color: #fff; }
-
         .btn-batal { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: transparent; color: white; cursor: pointer; }
         .btn-confirm-exit { flex: 1; padding: 12px; border-radius: 10px; border: none; background: var(--accent); color: white; cursor: pointer; font-weight: bold; }
-
     </style>
 </head>
 <body>
@@ -163,7 +176,10 @@
     <div id="exam-container">
         <div class="top-bar">
             <div class="live-label"><span class="dot"></span> LIVE EXAM MODE</div>
-            <button class="btn-exit" onclick="bukaModalKeluar()">KELUAR UJIAN</button>
+            <div class="action-buttons">
+                <button class="btn-refresh" onclick="refreshSoal()">↻ REFRESH</button>
+                <button class="btn-exit" onclick="bukaModalKeluar()">KELUAR UJIAN</button>
+            </div>
         </div>
         <iframe id="exam-frame" src=""></iframe>
     </div>
@@ -185,6 +201,17 @@
     <script src="script.js"></script>
 
     <script>
+        // Fungsi Refresh Soal
+        function refreshSoal() {
+            const frame = document.getElementById('exam-frame');
+            if (frame.src) {
+                const currentSrc = frame.src;
+                frame.src = ""; 
+                frame.src = currentSrc;
+                console.log("Soal direfresh.");
+            }
+        }
+
         function bukaModalKeluar() {
             document.getElementById('modal-exit').style.display = 'flex';
             document.getElementById('input-pass-keluar').focus();
@@ -195,13 +222,10 @@
             document.getElementById('input-pass-keluar').value = '';
         }
 
-        // Perbaikan transisi agar container ujian tampil flex
         const originalVerifikasiMasuk = window.verifikasiMasuk;
         window.verifikasiMasuk = function() {
-            // Pastikan fungsi di script.js dipanggil, lalu set display flex
             if (typeof originalVerifikasiMasuk === 'function') {
                 originalVerifikasiMasuk();
-                // Jika login berhasil (elemen berubah), paksa ke flex
                 setTimeout(() => {
                     const examCont = document.getElementById('exam-container');
                     if (examCont.style.display === 'block') examCont.style.display = 'flex';
