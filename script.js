@@ -1,58 +1,75 @@
+/**
+ * SMAN 23 BATAM - EXAMBRO 
+ * JavaScript Logic for Firebase & Web Control
+ */
+
 // 1. KONFIGURASI FIREBASE
 const firebaseConfig = {
     databaseURL: "https://belajar-cbt-default-rtdb.asia-southeast1.firebasedatabase.app/"
 };
 
+// Inisialisasi Firebase jika belum ada
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
+
 const database = firebase.database();
 let configUjian = null;
 
-// 2. AMBIL DATA DARI FIREBASE
+// 2. AMBIL DATA DARI FIREBASE (Realtime Sync)
+// Mengambil data dari node 'config' di Realtime Database
 database.ref('config').on('value', (snapshot) => {
     configUjian = snapshot.val();
-    console.log("Data Firebase Terhubung.");
+    console.log("Firebase Data Loaded:", configUjian);
+}, (error) => {
+    console.error("Firebase Error:", error);
 });
 
 // 3. FUNGSI MASUK (LOGIN)
 function verifikasiMasuk() {
     const pinInput = document.getElementById('input-pin').value;
     
+    // Validasi apakah data sudah ditarik dari Firebase
     if (!configUjian) {
-        alert("Menghubungkan ke server... Pastikan internet aktif.");
+        alert("Sedang menghubungkan ke server... Pastikan internet Anda aktif.");
         return;
     }
 
+    // Cek PIN (mengambil field 'pin' dari Firebase)
     if (pinInput === configUjian.pin) {
-        // Sembunyikan Login & Gelembung
+        // Efek transisi tampilan
         document.getElementById('login-area').style.display = 'none';
         document.getElementById('bubble-container').style.display = 'none';
         
-        // Munculkan Area Ujian
+        // Munculkan Frame Ujian
         const examCont = document.getElementById('exam-container');
         examCont.style.display = 'flex'; 
         
+        // Load URL Ujian (mengambil field 'url' dari Firebase)
         const examFrame = document.getElementById('exam-frame');
         if (examFrame) {
             examFrame.src = configUjian.url;
         }
     } else {
         alert("PIN MASUK SALAH!");
+        document.getElementById('input-pin').value = '';
     }
 }
 
-// 4. FUNGSI KELUAR (CLOSE APP)
+// 4. FUNGSI KELUAR (EXIT)
 function verifikasiKeluar() {
     const passKeluar = document.getElementById('input-pass-keluar').value;
 
+    if (!configUjian) return;
+
+    // Cek PIN Keluar (mengambil field 'pout' dari Firebase)
     if (passKeluar === configUjian.pout) {
-        // CEK APAKAH BERJALAN DI ANDROID (SMAN 23 EXAMBRO)
+        // Sinkronisasi dengan Java (Interface AndroidControl)
         if (typeof window.AndroidControl !== 'undefined' && window.AndroidControl.keluarAplikasi) {
-            window.AndroidControl.keluarAplikasi(); // Perintah tutup aplikasi ke Java
+            window.AndroidControl.keluarAplikasi(); 
         } else {
-            // Jika dibuka di browser laptop biasa
-            alert("Berhasil Keluar.");
+            // Jika dijalankan di browser biasa (Laptop/PC)
+            alert("Sesi Ujian Berakhir.");
             location.reload(); 
         }
     } else {
@@ -61,22 +78,37 @@ function verifikasiKeluar() {
     }
 }
 
-// FUNGSI NAVIGASI & MODAL
+// 5. FUNGSI NAVIGASI & MODAL
 function refreshSoal() {
     const frame = document.getElementById('exam-frame');
-    if (frame.src) {
+    if (frame && frame.src !== "" && frame.src !== "about:blank") {
         const currentSrc = frame.src;
-        frame.src = ""; 
-        setTimeout(() => { frame.src = currentSrc; }, 100);
+        frame.src = "about:blank"; // Reset sementara untuk force refresh
+        setTimeout(() => { 
+            frame.src = currentSrc; 
+        }, 150);
     }
 }
 
 function bukaModalKeluar() { 
-    document.getElementById('modal-exit').style.display = 'flex'; 
-    document.getElementById('input-pass-keluar').focus(); 
+    const modal = document.getElementById('modal-exit');
+    if (modal) {
+        modal.style.display = 'flex'; 
+        document.getElementById('input-pass-keluar').focus();
+    }
 }
 
 function tutupModalKeluar() { 
-    document.getElementById('modal-exit').style.display = 'none'; 
-    document.getElementById('input-pass-keluar').value = ''; 
+    const modal = document.getElementById('modal-exit');
+    if (modal) {
+        modal.style.display = 'none'; 
+        document.getElementById('input-pass-keluar').value = '';
+    }
 }
+
+// Tambahan: Tekan Enter untuk Masuk
+document.getElementById('input-pin').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        verifikasiMasuk();
+    }
+});
