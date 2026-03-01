@@ -1,137 +1,230 @@
+/* Variabel Warna Global */
 :root {
     --bg-dark: #0f172a;
-    --card-bg: rgba(30, 41, 59, 0.7); /* Transparan untuk efek kaca */
     --primary: #22c55e;
     --primary-glow: rgba(34, 197, 94, 0.4);
-    --blue-refresh: #3b82f6;
     --accent: #ef4444;
     --text-main: #f8fafc;
+    --card-bg: rgba(30, 41, 59, 0.75);
     --border: rgba(255, 255, 255, 0.1);
-    --box-width: 340px;
 }
 
-/* 1. RESET & BACKGROUND ANIMASI */
+/* Reset Standar */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-body {
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
     font-family: 'Inter', sans-serif;
-    /* Background Gradient agar lebih hidup */
-    background: radial-gradient(circle at top left, #1e293b, #0f172a);
+}
+
+body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    color: var(--text-main);
+    position: relative;
 }
 
-/* 2. KOTAK LOGIN DENGAN EFEK KACA (GLASSMORPHISM) */
-.login-box, .modal-content {
+/* --- ANIMASI BACKGROUND --- */
+.bubbles {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.bubble {
+    position: absolute;
+    bottom: -100px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    animation: rise 15s infinite ease-in;
+}
+
+@keyframes rise {
+    0% { transform: translateY(0) scale(1); opacity: 0; }
+    20% { opacity: 0.3; }
+    100% { transform: translateY(-125vh) scale(1.5); opacity: 0; }
+}
+
+/* --- KOTAK LOGIN --- */
+.login-box {
     background: var(--card-bg);
-    padding: 40px 30px;
-    border-radius: 28px;
-    width: 90%;
-    max-width: var(--box-width);
+    padding: 35px 25px;
+    border-radius: 24px;
+    width: 88%;
+    max-width: 340px;
     border: 1px solid var(--border);
     text-align: center;
-    /* Efek Blur di belakang kotak */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    z-index: 10;
 }
 
-/* Judul dengan gaya modern */
 h2 {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 800;
-    letter-spacing: -1px;
-    background: linear-gradient(to bottom right, #4ade80, #22c55e);
+    background: linear-gradient(135deg, #4ade80, #22c55e);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
 }
 
-p.subtitle {
-    font-size: 13px;
+.subtitle {
+    font-size: 11px;
     color: #94a3b8;
-    margin-bottom: 35px;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     text-transform: uppercase;
+    margin-bottom: 25px;
 }
 
-/* 3. INPUT PIN YANG ELEGAN */
+/* --- FORM ELEMENTS --- */
 input[type="password"] {
     width: 100%;
-    background: rgba(255, 255, 255, 0.05); /* Input agak transparan */
+    background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--border);
-    outline: none;
-    padding: 16px;
-    border-radius: 16px;
+    padding: 14px;
+    border-radius: 12px;
     color: #fff;
     font-size: 18px;
     text-align: center;
-    margin-bottom: 20px;
-    transition: all 0.3s ease;
+    margin-bottom: 15px;
+    outline: none;
+    transition: 0.3s;
 }
 
 input[type="password"]:focus {
-    background: rgba(255, 255, 255, 0.1);
     border-color: var(--primary);
     box-shadow: 0 0 15px var(--primary-glow);
 }
 
-/* 4. TOMBOL MULAI DENGAN EFEK GLOW */
 .btn-save {
     width: 100%;
-    padding: 16px;
-    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    padding: 14px;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
     color: white;
     border: none;
-    border-radius: 16px;
-    font-weight: 800;
-    font-size: 14px;
+    border-radius: 12px;
+    font-weight: 700;
     cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 1px;
     box-shadow: 0 10px 20px -5px var(--primary-glow);
-    transition: all 0.3s ease;
 }
 
-.btn-save:active {
-    transform: scale(0.98);
+/* --- AREA UJIAN (FULL SCREEN) --- */
+#exam-container {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    flex-direction: column;
+    z-index: 100;
+    background: #fff;
 }
 
-/* 5. MODAL KELUAR YANG SERASI */
+.top-bar {
+    background: #1e293b;
+    padding: 0 15px;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.status-indicator {
+    color: var(--primary);
+    font-size: 11px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.dot {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+.btn-round {
+    width: 34px; height: 34px;
+    border-radius: 50%; border: none;
+    color: white; cursor: pointer;
+    font-size: 16px;
+    margin-left: 8px;
+}
+
+.btn-blue { background: #3b82f6; }
+.btn-red { background: #ef4444; }
+
+iframe {
+    width: 100%;
+    flex-grow: 1;
+    border: none;
+}
+
+/* --- MODAL --- */
+#modal-exit {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 200;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+}
+
+.modal-content {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 20px;
+    width: 85%;
+    max-width: 320px;
+    text-align: center;
+    border: 1px solid var(--border);
+}
+
+.modal-desc {
+    color: #94a3b8;
+    font-size: 12px;
+    margin-bottom: 20px;
+}
+
 .modal-actions {
     display: flex;
-    gap: 12px;
+    gap: 10px;
+    margin-top: 10px;
 }
 
 .btn-batal {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border);
-    color: #94a3b8;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
     flex: 1;
-    padding: 14px;
-    border-radius: 14px;
-    font-weight: 700;
-    cursor: pointer;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
 }
 
 .btn-keluar-final {
-    background: #ef4444;
+    background: var(--accent);
     color: white;
-    border: none;
     flex: 1;
-    padding: 14px;
-    border-radius: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 8px 15px rgba(239, 68, 68, 0.3);
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
 }
