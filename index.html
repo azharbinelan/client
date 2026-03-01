@@ -2,133 +2,10 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Exambro | SMAN 23 Batam</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-dark: #0f172a;
-            --primary: #22c55e;
-            --primary-glow: rgba(34, 197, 94, 0.4);
-            --accent: #ef4444;
-            --text-main: #f8fafc;
-            --card-bg: rgba(30, 41, 59, 0.6);
-            --border: rgba(255, 255, 255, 0.1);
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* --- EFEK GELEMBUNG (BUBBLES) --- */
-        .bubbles {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .bubble {
-            position: absolute;
-            bottom: -100px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: rise 15s infinite ease-in;
-        }
-
-        @keyframes rise {
-            0% { transform: translateY(0) scale(1); opacity: 0; }
-            20% { opacity: 0.3; }
-            100% { transform: translateY(-120vh) scale(1.5); opacity: 0; }
-        }
-
-        /* --- KOTAK LOGIN & MODAL (UKURAN SAMA & RAPI) --- */
-        .login-box, .modal-content {
-            background: var(--card-bg);
-            padding: 40px 30px;
-            border-radius: 28px;
-            width: 85%;
-            max-width: 320px;
-            border: 1px solid var(--border);
-            text-align: center;
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-        }
-
-        h2 {
-            font-size: 26px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #4ade80, #22c55e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
-        }
-
-        .subtitle { font-size: 11px; color: #94a3b8; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 30px; }
-
-        /* --- INPUT & TOMBOL RATA KIRI KANAN --- */
-        input[type="password"] {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border);
-            padding: 16px;
-            border-radius: 14px;
-            color: #fff;
-            font-size: 16px;
-            text-align: center;
-            margin-bottom: 20px;
-            transition: 0.3s;
-            outline: none;
-        }
-
-        input[type="password"]:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 15px var(--primary-glow);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .btn-save {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            color: white;
-            border: none;
-            border-radius: 14px;
-            font-weight: 800;
-            cursor: pointer;
-            box-shadow: 0 10px 20px -5px var(--primary-glow);
-            transition: transform 0.2s;
-        }
-
-        .btn-save:active { transform: scale(0.95); }
-
-        /* --- EXAM AREA --- */
-        #exam-container { display: none; position: fixed; inset: 0; flex-direction: column; z-index: 100; }
-        .top-bar { background: #1e293b; padding: 5px 15px; height: 45px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
-        .btn-round { width: 32px; height: 32px; border-radius: 50%; border: none; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-        iframe { flex: 1; width: 100%; border: none; background: white; }
-
-        /* --- MODAL KELUAR --- */
-        #modal-exit { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; justify-content: center; align-items: center; backdrop-filter: blur(8px); }
-        .modal-actions { display: flex; gap: 10px; margin-top: 10px; }
-        .btn-batal { background: rgba(255,255,255,0.1); color: #fff; flex: 1; padding: 12px; border-radius: 10px; border: 1px solid var(--border); cursor: pointer; }
-        .btn-keluar-final { background: var(--accent); color: white; flex: 1; padding: 12px; border-radius: 10px; border: none; cursor: pointer; font-weight: bold; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -137,25 +14,28 @@
     <div id="login-area" class="login-box">
         <h2>SMAN 23 BATAM</h2>
         <p class="subtitle">E-EXAM BROWSER</p>
-        <input type="password" id="input-pin" placeholder="PIN MASUK">
+        <input type="password" id="input-pin" placeholder="PIN MASUK" inputmode="numeric">
         <button class="btn-save" onclick="verifikasiMasuk()">MULAI UJIAN</button>
     </div>
 
     <div id="exam-container">
         <div class="top-bar">
-            <div style="color: var(--primary); font-size: 11px; font-weight: 800;">● UJIAN BERLANGSUNG</div>
-            <div style="display: flex; gap: 10px;">
-                <button class="btn-round" style="background: #3b82f6;" onclick="refreshSoal()">↻</button>
-                <button class="btn-round" style="background: #ef4444;" onclick="bukaModalKeluar()">X</button>
+            <div class="status-indicator">
+                <span class="dot">●</span> UJIAN BERLANGSUNG
+            </div>
+            <div class="control-buttons">
+                <button class="btn-round btn-blue" onclick="location.reload()">↻</button>
+                <button class="btn-round btn-red" onclick="bukaModalKeluar()">✕</button>
             </div>
         </div>
-        <iframe id="exam-frame" src=""></iframe>
+        <iframe id="exam-frame" src="about:blank"></iframe>
     </div>
 
     <div id="modal-exit">
         <div class="modal-content">
-            <h3 style="margin-bottom: 20px;">Keluar Sistem?</h3>
-            <input type="password" id="input-pass-keluar" placeholder="PIN KELUAR">
+            <h3>Keluar Sistem?</h3>
+            <p class="modal-desc">Masukkan PIN Keluar untuk mengakhiri sesi ujian ini.</p>
+            <input type="password" id="input-pass-keluar" placeholder="PIN KELUAR" inputmode="numeric">
             <div class="modal-actions">
                 <button class="btn-batal" onclick="tutupModalKeluar()">BATAL</button>
                 <button class="btn-keluar-final" onclick="verifikasiKeluar()">KELUAR</button>
@@ -168,17 +48,17 @@
     <script src="script.js"></script>
 
     <script>
-        // Membuat gelembung secara otomatis
+        // Animasi Gelembung Otomatis
         const container = document.getElementById('bubble-container');
         for (let i = 0; i < 15; i++) {
             const bubble = document.createElement('div');
             bubble.className = 'bubble';
-            const size = Math.random() * 60 + 20 + 'px';
+            const size = Math.random() * 50 + 15 + 'px';
             bubble.style.width = size;
             bubble.style.height = size;
             bubble.style.left = Math.random() * 100 + '%';
-            bubble.style.animationDelay = Math.random() * 10 + 's';
-            bubble.style.animationDuration = Math.random() * 10 + 10 + 's';
+            bubble.style.animationDelay = Math.random() * 8 + 's';
+            bubble.style.animationDuration = Math.random() * 7 + 8 + 's';
             container.appendChild(bubble);
         }
     </script>
